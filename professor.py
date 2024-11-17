@@ -4,12 +4,13 @@ class Professor:
         self.age = age
         self.status = 'Disponível'
         self.discipline = []
-        self.university = []
+        self.department = None
+        self.university = None
 
-    def add_discipline(self, discipline, university):
+    def add_discipline(self, discipline):
         if len(self.discipline) <= 5:
             self.discipline.append(discipline)
-            self.university.append(university)
+            # self.university.append(university)
             if len(self.discipline) == 5:
                 self.status = 'Indisponível'
             print(f'Professor {self.name} contratado para lecionar a disciplina {discipline} com sucesso.')
@@ -18,7 +19,17 @@ class Professor:
             print("Professor indisponível.")
             return False
 
-    def consult_teacher(self):
-        print(f'\nInformações: \n   Professor(a): {self.name}\n   Idade: {self.age}\n   Status: {self.status}\n   Disciplinas ministradas:')
-        for i, discipline in enumerate(self.discipline):
-            print(f'    {discipline} - {self.university[i]}')
+    def consult_professor(self):
+
+        if self.university == None:
+            uni = "Não está contratado(a) no momento"
+            dep = "Não está contratado(a) no momento"
+        else:
+            uni = self.university.name
+            dep = self.department.name
+
+        print(f'\nInformações do Professor: \n   Nome: {self.name}\n   Status: {self.status}\n   Departamento:{uni} - {dep}\n   Disciplinas ministradas:')
+        for university, disciplines in self.discipline:
+            print(f'   {university.name}:')
+            for discipline in disciplines:
+                print(f'      {discipline}')

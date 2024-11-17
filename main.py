@@ -3,382 +3,217 @@ from university import University
 from professor import Professor
 from discipline import  Discipline
 
-
-#VARIABLES
-option = 1
-index = 0
-index_dep = 0
-index_prof = 0
-index_dis = 0
-menu_active = 1
-active = True
-universities = []
-teachers = []
+#arrays
+professors = []
 disciplines = []
+universities = []
 
-def print_hi(name):
-    print(f'Hi, {name}')
+def see_professor_list():
+    global professors
 
+    print("Professores: ")
+    if len(professors) > 0:
+        for i, professor in enumerate(professors):
+            print(f"{i + 1} - {professor.name} : {professor.status}")
 
-def consult_department(university, index):
-    global universities, option, menu_active, active
-    while True:  # Loop to handle user actions in this menu
-        print("\nCONSULTAR DEPARTAMENTO")
-        print("------------------------------------\n")
+        return True
+    else:
+        print("Não há professores disponíveis")
+        return False
 
-        department = university.departments[index]
-        teachers = department.professors
+def see_discipline_list():
+    global disciplines
 
-        print(f"DEPARTAMENTO {department.name}\n")
-        print(f"Nome: {department.name}\n")
-        print(f"Professores: ")
+    print("Disciplinas: ")
+    if len(disciplines) > 0:
+        for i, discipline in enumerate(disciplines):
+            print(f"{i + 1} - {discipline.name}")
 
-        for i in teachers:
-            print(i.name)
+        return True
+    else:
+        print("Não há disciplinas disponíveis")
+        return False
 
-        print("\nO que deseja fazer a seguir?\n")
-        print("1 - CONTRATAR UM PROFESSOR\n")
-        print("2 - ADICIONAR DISCIPLINA NOVA A PROFESSOR\n")
-        print("3 - ADICIONAR DISCIPLINA\n")
-        print("4 - DEMITIR PROFESSOR\n")
-        print("5 - RETIRAR DISCIPLINA DA EMENTA\n")
-        print("6 - VOLTAR AO MENU PRINCIPAL\n")
-        print("7 - FECHAR PROGRAMA\n")
+def create_discipline(name):
+    global disciplines
+    discipline = Discipline(name)
 
-        option = int(input("Escolha uma das opções: "))
+    disciplines.append(discipline)
 
-        if option == 1:
-            print("Criar professor")
-        elif option == 2:
-            print("Adicionar disciplina nova a professor")
-        elif option == 3:
-            print("Adicionar disciplina")
-        elif option == 4:
-            print("Demitir professor")
-        elif option == 5:
-            print("Retirar disciplina da ementa")
-        elif option == 6:
-            menu_active = 1
-            break
-        elif option == 7:
-            active = False
-            break
-        else:
-            print("Opção inválida, tente novamente.\n")
+def create_professor(name, age):
+    global professors
+    professor = Professor(name, age)
 
+    professors.append(professor)
 
+def create_university(name):
+    global universities
+    university = University(name)
 
-def consult_university(index):
-    global universities, option, menu_active, active, index_dep
-    while True:  # Loop to handle user actions in this menu
-        count = 0
-        print("\nCONSULTAR UNIVERSIDADE ESPECÍFICA")
-        print("------------------------------------\n")
-
-        university = universities[index]
-        departments = university.departments
-
-        print(f"UNIVERSIDADE {university.name}\n")
-        print(f"Nome: {university.name}\n")
-        print(f"Departamentos: ")
-
-        for i in departments:
-            print(f"{count + 1} - {i.name}")
-            count = count + 1
-
-        print("\nO que deseja fazer a seguir?\n")
-        print("1 - CRIAR UM DEPARTAMENTO\n")
-        print("2 - ACESSAR DEPARTAMENTO\n")
-        print("3 - VOLTAR PARA O MENU PRINCIPAL\n")
-        print("4 - FECHAR PROGRAMA\n")
-
-        option = int(input("Escolha uma das opções: "))
-
-        if option == 1:
-            university.create_department()
-        elif option == 2:
-            index_dep = int(input("Insira o numero do departamento: ")) - 1
-            consult_department(university,index_dep)
-        elif option == 3:
-            menu_active = 1
-            break
-        elif option == 4:
-            active = False
-            break
-        else:
-            print("Opção inválida, tente novamente.\n")
-
-
-def consult_professors():
-    global universities, option, menu_active, teachers, index_prof, active
-    count = 1
-    print("\nCONSULTAR PROFESSORES")
-    print("------------------------------------\n")
-
-    while True:
-
-        for i in teachers:
-            print(f"{count} - {i.name}")
-            count = count + 1
-
-        print("\nO que deseja fazer a seguir?\n")
-        print("1 - CONSULTAR UM PROFESSOR\n")
-        print("2 - VOLTAR PARA O MENU PRINCIPAL\n")
-        print("3 - FECHAR PROGRAMA\n")
-        option = int(input("Escolha uma das opções: "))
-
-
-        if option == 1:
-            index_prof = int(input("Insira o numero do professor: ")) - 1
-            teachers[index_prof].consult_teacher()
-            print("\nO que deseja fazer a seguir?\n")
-            print("1 - CONSULTAR UM PROFESSOR\n")
-            print("2 - VOLTAR PARA O MENU PRINCIPAL\n")
-            print("3 - FECHAR PROGRAMA\n")
-            option = int(input("Escolha uma das opções: "))
-        elif option == 2:
-            menu_active = 1
-            break
-        elif option == 3:
-            active = False
-            break
-        else:
-            print("opção invalida, tente novamente\n")
-
-def consult_disciplines():
-    global universities, option, menu_active, teachers, disciplines, index_dis, active
-    count = 1
-    print("\nCONSULTAR DISCIPLINAS")
-    print("------------------------------------\n")
-
-    while True:
-
-        for i in disciplines:
-            print(f"{count} - {i.name}")
-            count = count + 1
-
-        print("\nO que deseja fazer a seguir?\n")
-        print("1 - CONSULTAR UMA DISICPLINA\n")
-        print("2 - VOLTAR PARA O MENU PRINCIPAL\n")
-        print("3 - FECHAR PROGRAMA\n")
-        option = int(input("Escolha uma das opções: "))
-
-
-        if option == 1:
-            index_dis = int(input("Insira o numero do professor: ")) - 1
-            disciplines[index_dis].consult_discipline
-            print("\nO que deseja fazer a seguir?\n")
-            print("1 - CONSULTAR UM PROFESSOR\n")
-            print("2 - VOLTAR PARA O MENU PRINCIPAL\n")
-            print("3 - FECHAR PROGRAMA\n")
-            option = int(input("Escolha uma das opções: "))
-        elif option == 2:
-            menu_active = 1
-            break
-        elif option == 3:
-            active = False
-            break
-        else:
-            print("opção invalida, tente novamente\n")
-
-def consult_universities():
-    global universities, option, menu_active, active
-    count = 1
-    print("\nCONSULTAR UNIVERSIDADEs")
-    print("------------------------------------\n")
-
-    while True:
-
-        for i in universities:
-            print(f"{count} - {i.name}")
-            count = count + 1
-
-        print("\nO que deseja fazer a seguir?\n")
-        print("1 - ENTRAR EM UMA UNIVERSIDADE\n")
-        print("2 - VOLTAR PARA O MENU PRINCIPAL\n")
-        print("3 - FECHAR PROGRAMA\n")
-        option = int(input("Escolha uma das opções: "))
-
-
-        if option == 1:
-            index = int(input("Insira o numero da universidade: ")) - 1
-            consult_university(index)
-        elif option == 2:
-            menu_active = 1
-            break
-        elif option == 3:
-            active = False
-            break
-        else:
-            print("opção invalida, tente novamente\n")
-
-
-def create_discipline():
-    global universities, option, menu_active, active, teachers, disciplines
-    print("\nCRIAR DISCIPLINA")
-    print("------------------------------------\n")
-
-    while True:
-
-        name = str(input("Insira o nome da disciplina: "))
-
-        discipline = Discipline(name)
-
-        disciplines.append(discipline)
-
-        print("\nDisciplina criada! O que deseja fazer a seguir?\n")
-        print("1 - CONSULTAR INFORMAÇÃO DE DISCIPLINA\n")
-        print("2 - VOLTAR PARA O MENU PRINCIPAL\n")
-        print("3 - FECHAR PROGRAMA\n")
-        option = int(input("Escolha uma das opções: "))
-
-
-        if option == 1:
-           discipline.consult_discipline()
-           print("\nO que deseja fazer a seguir?\n")
-           print("1 - CONSULTAR INFORMAÇÃO DE PROFESSOR\n")
-           print("2 - VOLTAR PARA O MENU PRINCIPAL\n")
-           print("3 - FECHAR PROGRAMA\n")
-           option = int(input("Escolha uma das opções: "))
-        elif option == 2:
-            menu_active = 1
-            break
-        elif option == 3:
-            active = False
-            break
-        else:
-            print("opção invalida, tente novamente\n")
-
-
-def create_professor():
-    global universities, option, menu_active, active, teachers
-    print("\nCRIAR PROFESSOR")
-    print("------------------------------------\n")
-
-    while True:
-
-        name = str(input("Insira o nome do professor: "))
-        age = int(input("Insira a idade do professor: "))
-
-        professor = Professor(name, age)
-        teachers.append(professor)
-
-        print("\nProfessor criado! O que deseja fazer a seguir?\n")
-        print("1 - CONSULTAR INFORMAÇÃO DE PROFESSOR\n")
-        print("2 - VOLTAR PARA O MENU PRINCIPAL\n")
-        print("3 - FECHAR PROGRAMA\n")
-
-        option = int(input("Escolha uma das opções: "))
-
-        if option == 1:
-            professor.consult_teacher()
-            print("\nO que deseja fazer a seguir?\n")
-            print("1 - CONSULTAR INFORMAÇÃO DE PROFESSOR\n")
-            print("2 - VOLTAR PARA O MENU PRINCIPAL\n")
-            print("3 - FECHAR PROGRAMA\n")
-            option = int(input("Escolha uma das opções: "))
-        elif option == 2:
-            menu_active = 1  # Atualiza o menu_active para voltar ao menu principal
-            break
-        elif option == 3:
-            active = False  # Define active como False para fechar o programa
-            break
-        else:
-            print("Opção inválida, tente novamente.\n")
-
-
-def create_university():
-    global universities, option, menu_active, active
-    print("\nCRIAR UNIVERSIDADE")
-    print("------------------------------------\n")
-
-    while True:
-
-        name = str(input("Insira o nome da universidade: "))
-
-        university = University(name)
-
-        universities.append(university)
-
-        print("\nUniversidade criada! O que deseja fazer a seguir?\n")
-        print("1 - CRIAR OUTRA UNIVERSIDADE\n")
-        print("2 - ENTRAR NA UNIVERSIDADE\n")
-        print("3 - VOLTAR PARA O MENU PRINCIPAL\n")
-        print("4 - FECHAR PROGRAMA\n")
-        option = int(input("Escolha uma das opções: "))
-
-
-        if option == 1:
-            create_university()
-        elif option == 2:
-            function_index = universities.index(university)
-            consult_university(function_index)
-        elif option == 3:
-            menu_active = 1
-            break
-        elif option == 4:
-            active = False
-            break
-        else:
-            print("opção invalida, tente novamente\n")
-
-
+    universities.append(university)
 
 def menu():
-    global option, menu_active, active
-
     print("\nBEM-VINDO AO SISTEMA UNIVERSITÁRIO")
     print("------------------------------------\n")
 
-    print("1 - CRIAR UNIVERSIDADE\n")
-    print("2 - CONSULTAR UNIVERSIDADES\n")
-    print("3 - CRIAR PROFESSOR\n")
-    print("4 - CONSULTAR PROFESSORES\n")
-    print("5 - CRIAR DISCIPLINA\n")
-    print("6 - CONSULTAR DISCIPLINAS\n")
-    print("7 - FECHAR PROGRAMA\n")
+    while True:
 
-    option = int(input("Escolha uma das opções: "))
+        print("\n1 - CADASTRAR UNIVERSIDADE")
+        print("\n2 - CONSULTAR UNIVERSIDADES")
+        print("\n3 - CRIAR PROFESSOR")
+        print("\n4 - CONSULTAR PROFESSORES")
+        print("\n5 - CRIAR DISCIPLINA")
+        print("\n6 - CONSULTAR DISCIPLINAS")
+        print("\n7 - FECHAR PROGRAMA")
 
-    if option == 1:
-        menu_active = 2
-    elif option == 2:
-        menu_active = 3
-    elif option == 3:
-        menu_active = 5
-    elif option == 4:
-        menu_active = 7
-    elif option == 5:
-        menu_active = 6
-    elif option == 6:
-        menu_active = 8
-    elif option == 7:
-        active = False
-    else:
-        print("opção invalida, tente novamente\n")
+        option = int(input("\nEscolha uma das opções: "))
+
+        if option == 1:
+            print("\nCadastrando nova universidade...")
+            name = str(input(("\nInsira o nome da universidade: ")))
+            create_university(name)
+            print("\nUniversidade cadastrada com sucesso!")
+        elif option == 2:
+            print("\nConsultando universidades...")
+            for i, uni in enumerate(universities):
+                print(f"\n{i+1} - {uni.name}")
+            index = int(input("\nEscolha uma universidade para consultar: ")) - 1
+
+            if index >= 0 and index < len(universities):
+                uni = universities[index]
+                uni_menu(uni)
+            else:
+                print("\nopção inválida, tente novamente.")
+        elif option == 3:
+            print("\nCadastrando novo professor...")
+            name = str(input(("\nInsira o nome do(a) professor(a): ")))
+            age = str(input(("\nInsira a idade do(a) professor(a): ")))
+            create_professor(name, age)
+            print("\nProfessor(a) cadastrado com sucesso!")
+        elif option == 4:
+            print("\nConsultando professores...\n")
+            for i, professor in enumerate(professors):
+                print(f"{i + 1} - {professor.name}\n")
+
+            index = int(input("\nEscolha um professor para consultar: ")) - 1
+
+            if index >= 0 and index < len(professors):
+                print("\nConsultando Professor:\n")
+
+                professor = professors[index]
+                professor.consult_professor()
+            else:
+                print("\nopção inválida, tente novamente.")
+        elif option == 5:
+            print("\nCadastrando nova disciplina...")
+            name = str(input(("\nInsira o nome da disciplina: ")))
+            create_discipline(name)
+            print("\nDisciplina cadastrada com sucesso!")
+        elif option == 6:
+            print("\nConsultando disciplinas...\n")
+            for i, discipline in enumerate(disciplines):
+                print(f"\n{i + 1} - {discipline.name}\n")
+
+            index = int(input("\nEscolha uma discipline para consultar: ")) - 1
+
+            if index >= 0 and index < len(disciplines):
+                print("\nConsultando Professor:\n")
+
+                discipline = disciplines[index]
+                discipline.consult_discipline()
+        elif option == 7:
+            exit()
+        else:
+            print("\nopção invalida, tente novamente\n")
+
+
+def uni_menu(university):
+    print("\nPORTAL DA UNIVERSIDADE")
+    print("\n------------------------------------")
+    university.consult_universiy()
+
+    while True:
+
+        print("\n1 - CADASTRAR DEPARTMANENTO")
+        print("\n2 - CONSULTAR DEPARTAMENTOS")
+        print("\n3 - CONSULTAR INFO DESTA UNIVERSIDADE")
+        print("\n4 - VOLTAR AO MENU PRINCIPAL")
+        print("\n5 - SAIR DO PROGRAMA")
+
+        option = int(input("\nEscolha uma das opções: "))
+
+        if option == 1:
+            print("\nCadastrando novo departamento...")
+            university.create_department()
+        elif option == 2:
+            print(f"\nConsultando departamentos da Universidade {university.name} ...")
+            for i, dep in enumerate(university.departments):
+                print(f"\n{i + 1} - {dep.name}")
+            index = int(input("\nEscolha um departamento para consultar: ")) - 1
+
+            if index >= 0 and index < len(university.departments):
+                dep = university.departments[index]
+                dep_menu(dep)
+            else:
+                print("\nopção inválida, tente novamente.")
+        elif option == 3:
+            university.consult_universiy()
+        elif option == 4:
+            menu()
+        elif option == 5:
+            exit()
+
+
+def dep_menu(department):
+    print("\nPORTAL DO DEPARTAMENTO")
+    print("\n------------------------------------")
+    department.consult_department()
+
+    while True:
+
+        print("\n1 - CONTRATAR PROFESSOR")
+        print("\n2 - ADICIONAR NOVA DISCIPLINA A PROFESSOR")
+        print("\n3 - ADICIONAR NOVA DISCIPLINA")
+        print("\n4 - CONSULTAR INFO DESTE DEPARTAMENTO")
+        print("\n5 - VOLTAR AO MENU PRINCIPAL")
+        print("\n6 - SAIR DO PROGRAMA")
+
+        option = int(input("Escolha uma das opções: "))
+
+        if option == 1:
+            print("\nContratando novo professor...")
+            if see_professor_list() and see_discipline_list():
+                professor_index = int(input("\nEscolha um(a) professor para contratar: ")) - 1
+                new_professor = professors[professor_index]
+                discipline_index = int(input("\nEscolha uma disciplina para o professor: ")) - 1
+                new_discipline = disciplines[discipline_index]
+
+                department.add_professor(new_professor, new_discipline)
+            else:
+                print("")
+        elif option == 2:
+            print("\nConsultando departamentos...")
+            for i, dep in enumerate(university.departments):
+                print(f"\n{i + 1} - {dep.name}")
+            index = int(input("\nEscolha uma universidade para consultar: ")) - 1
+
+            if index >= 0 and index < len(university.departments):
+                print("\nCONSULTANDO DEPARTAMENTOS:")
+            else:
+                print("\nopção inválida, tente novamente.")
+
+        elif option == 3:
+            print("\nadicionar disciplina")
+        elif option == 4:
+            department.consult_department()
+        elif option == 5:
+            menu()
+        elif option == 6:
+            exit()
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-
-    while active:
-
-        if menu_active == 1:
-            menu()
-        elif menu_active == 2:
-            create_university()
-        elif menu_active == 3:
-            consult_universities()
-        elif menu_active == 4:
-            consult_university(index)
-        elif menu_active == 5:
-            create_professor()
-        elif menu_active == 6:
-            create_discipline()
-        elif menu_active == 7:
-            consult_professors()
-        elif menu_active == 8:
-            consult_disciplines()
-
+    menu()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
