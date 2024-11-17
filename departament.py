@@ -17,7 +17,7 @@ class Department:
         if len(unique_elements(self.professors)) <= 5:
             if professor not in self.professors or (professor in self.professors and discipline not in self.disciplines):
                 self.professors.append(professor)
-                self.disciplines.append(discipline)
+                #self.disciplines.append(discipline)
                 print(f'Professor(a) {professor} contratado para lecionar {discipline} com sucesso!')
                 return True
             else:

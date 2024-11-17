@@ -1,10 +1,10 @@
 class Professor:
-    def __init__(self, name, age, discipline, university):
+    def __init__(self, name, age):
         self.name = name
         self.age = age
         self.status = 'Disponível'
-        self.discipline = [discipline]
-        self.university = [university]
+        self.discipline = []
+        self.university = []
 
     def add_discipline(self, discipline, university):
         if len(self.discipline) <= 5:

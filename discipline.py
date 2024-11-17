@@ -1,8 +1,8 @@
 class Discipline:
-    def __init__(self, name, professor):
+    def __init__(self, name):
         self.name = name
-        self.professors = [professor]
-        self.university = ['']
+        self.professors = []
+        self.university = []
 
     def add_teacher(self, teacher):
         if len(self.professors) <= 5:
