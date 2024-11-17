@@ -31,14 +31,14 @@ class Department:
         for i, professor in enumerate(self.professors):
             print(f'{i} - {professor}:')
         while True:
-            index = int(input('Selecione o professor:'))
+            index = int(input('Selecione o professor(a):'))
             if 0 <= index < len(self.professors):
-                print(f'Professor {self.professors[index]} is no longer teaching {self.disciplines[index]}.')
+                print(f'O Professor {self.professors[index]} não leciona mais {self.disciplines[index]}.')
                 professor = self.professors[index]
                 del self.professors[index]
                 del self.disciplines[index]
                 if professor not in self.professors:
-                    print(f'Professor has been dismissed.')
+                    print(f'O professor(a) está demitido.')
                 return True
             else:
-                print('Invalid option.')
+                print('Opção inválida.')
