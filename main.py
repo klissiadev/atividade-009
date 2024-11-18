@@ -150,7 +150,7 @@ def menu():
 def uni_menu(university):
     print("\nPORTAL DA UNIVERSIDADE")
     print("\n------------------------------------")
-    university.consult_universiy()
+    university.consult_university()
 
     while True:
 
@@ -177,7 +177,7 @@ def uni_menu(university):
             else:
                 print("\nopção inválida, tente novamente.")
         elif option == 3:
-            university.consult_universiy()
+            university.consult_university()
         elif option == 4:
             delete_university(university)
             print('Universidade deletada com sucesso!')
@@ -226,7 +226,7 @@ def dep_menu(department):
         elif option == 6:
             op = input('\nDeseja prosseguir com a destruição do departamento? s/n ')
             if op == 's':
-                department.delete_department()
+                department.university.delete_department(department)
                 print('Departamento deletado com sucesso!')
                 menu()
         elif option == 7:

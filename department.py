@@ -99,12 +99,3 @@ class Department:
         else:
             print('Este departamento não possui disciplinas.')
 
-    def delete_department(self):
-        print(f'\nDeletando o Departamento ... {self.name}')
-        for i in range(len(self.professors) - 1, -1, -1):  # runs from last to first
-            self.professors[i].delete_discipline(self.disciplines[i])
-            self.disciplines[i].delete_professor(self.professors[i])
-        self.university.departments.remove(self)
-        del self
-        return True
-

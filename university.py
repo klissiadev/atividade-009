@@ -19,7 +19,7 @@ class University:
         else:
             print('Este departamento já existe!')
 
-    def consult_universiy(self):
+    def consult_university(self):
         print(f'\nUNIVERSIDADE {self.name}')
         print(f'Tipo de universidade: {self.type}')
         if len(self.departments) > 0:
@@ -28,3 +28,12 @@ class University:
                 print(f"{i+1} - {dep.name}")
         else:
             print(f'\nEsta universidade não possui departamentos ativos.')
+
+    def delete_department(self, department):
+        print(f'\nDeletando o Departamento {department.name}...')
+        for i in range(len(department.professors) - 1, -1, -1):  # runs from last to first
+            department.professors[i].delete_discipline(department.disciplines[i])
+            department.disciplines[i].delete_professor(department.professors[i])
+        self.departments.remove(department)
+        del department
+        return True
