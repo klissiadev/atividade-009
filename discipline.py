@@ -30,3 +30,5 @@ class Discipline:
         else:
             print(f"Disciplina {self.name} está indisponível para a universidade {university}.")
             return False
+
+    #def delete_teacher(self, teacher, university):

@@ -42,15 +42,38 @@ def create_discipline(name):
 
 def create_professor(name, age):
     global professors
-    professor = Professor(name, age)
-
+    for i in range(len(professors)):
+        if professors[i].name == name:
+            print('Este professor já esta cadastrado.')
+            return False
+    professor = Professor(name, age, len(professors))
     professors.append(professor)
+    return True
 
-def create_university(name):
+def create_university(key):
     global universities
-    university = University(name)
-
+    for i in range(len(universities)):
+        if universities[i].name == key:
+            print(f'A universidade informada já existe.')
+            return False
+    op = input('Selecione o tipo:\n 1- Pública\n 2- Privada: ')
+    if op == '1':
+        university = University(key,'Pública')
+    elif op == '2':
+        university = University(key,'Privada')
+    else:
+        university = University(key, ' ')
     universities.append(university)
+    return True
+
+def delete_university(university):
+    global universities
+    print(f'\nDeletando a universidade ... {university.name}')
+    for i in range(len(university.departments) - 1, -1, -1):  # runs from last to first
+        university.departments[i].delete_department()
+    universities.remove(university)
+    del university
+    return True
 
 def menu():
     print("\nBEM-VINDO AO SISTEMA UNIVERSITÁRIO")
@@ -71,8 +94,8 @@ def menu():
         if option == 1:
             print("\nCadastrando nova universidade...")
             name = str(input(("\nInsira o nome da universidade: ")))
-            create_university(name)
-            print("\nUniversidade cadastrada com sucesso!")
+            if create_university(name):
+                print("\nUniversidade cadastrada com sucesso!")
         elif option == 2:
             print("\nConsultando universidades...")
             for i, uni in enumerate(universities):
@@ -88,8 +111,8 @@ def menu():
             print("\nCadastrando novo professor...")
             name = str(input(("\nInsira o nome do(a) professor(a): ")))
             age = str(input(("\nInsira a idade do(a) professor(a): ")))
-            create_professor(name, age)
-            print("\nProfessor(a) cadastrado com sucesso!")
+            if create_professor(name, age):
+                print("\nProfessor(a) cadastrado com sucesso!")
         elif option == 4:
             print("\nConsultando professores...\n")
             for i, professor in enumerate(professors):
@@ -99,7 +122,6 @@ def menu():
 
             if index >= 0 and index < len(professors):
                 print("\nConsultando Professor:\n")
-
                 professor = professors[index]
                 professor.consult_professor()
             else:
@@ -137,8 +159,9 @@ def uni_menu(university):
         print("\n1 - CADASTRAR DEPARTMANENTO")
         print("\n2 - CONSULTAR DEPARTAMENTOS")
         print("\n3 - CONSULTAR INFO DESTA UNIVERSIDADE")
-        print("\n4 - VOLTAR AO MENU PRINCIPAL")
-        print("\n5 - SAIR DO PROGRAMA")
+        print("\n4 - DESTRUIR UNIVERSIDADE")
+        print("\n5 - VOLTAR AO MENU PRINCIPAL")
+        print("\n6 - SAIR DO PROGRAMA")
 
         option = int(input("\nEscolha uma das opções: "))
 
@@ -150,7 +173,6 @@ def uni_menu(university):
             for i, dep in enumerate(university.departments):
                 print(f"\n{i + 1} - {dep.name}")
             index = int(input("\nEscolha um departamento para consultar: ")) - 1
-
             if index >= 0 and index < len(university.departments):
                 dep = university.departments[index]
                 dep_menu(dep)
@@ -159,8 +181,12 @@ def uni_menu(university):
         elif option == 3:
             university.consult_universiy()
         elif option == 4:
+            delete_university(university)
+            print('Universidade deletada com sucesso!')
             menu()
         elif option == 5:
+            menu()
+        elif option == 6:
             exit()
 
 
@@ -172,11 +198,13 @@ def dep_menu(department):
     while True:
 
         print("\n1 - CONTRATAR PROFESSOR")
-        print("\n2 - ADICIONAR NOVA DISCIPLINA A PROFESSOR")
-        print("\n3 - ADICIONAR NOVA DISCIPLINA")
-        print("\n4 - CONSULTAR INFO DESTE DEPARTAMENTO")
-        print("\n5 - VOLTAR AO MENU PRINCIPAL")
-        print("\n6 - SAIR DO PROGRAMA")
+        print("\n2 - DEMITIR PROFESSOR")
+        print("\n3 - REMOVER DISICIPLINA DE PROFESSOR")
+        print("\n4 - RETIRAR DISCIPLINA DO DEPARTAMENTO")
+        print("\n5 - CONSULTAR INFO DESTE DEPARTAMENTO")
+        print("\n6 - DESTRUIR DEPARTAMENTO")
+        print("\n7 - VOLTAR AO MENU PRINCIPAL")
+        print("\n8 - SAIR DO PROGRAMA")
 
         option = int(input("Escolha uma das opções: "))
 
@@ -184,32 +212,29 @@ def dep_menu(department):
             print("\nContratando novo professor...")
             if see_professor_list() and see_discipline_list():
                 professor_index = int(input("\nEscolha um(a) professor para contratar: ")) - 1
-                new_professor = professors[professor_index]
                 discipline_index = int(input("\nEscolha uma disciplina para o professor: ")) - 1
-                new_discipline = disciplines[discipline_index]
-
-                department.add_professor(new_professor, new_discipline)
+                department.add_professor(professors[professor_index], disciplines[discipline_index])
             else:
                 print("")
         elif option == 2:
-            print("\nConsultando departamentos...")
-            for i, dep in enumerate(university.departments):
-                print(f"\n{i + 1} - {dep.name}")
-            index = int(input("\nEscolha uma universidade para consultar: ")) - 1
-
-            if index >= 0 and index < len(university.departments):
-                print("\nCONSULTANDO DEPARTAMENTOS:")
-            else:
-                print("\nopção inválida, tente novamente.")
-
+            department.delete_professor()
         elif option == 3:
-            print("\nadicionar disciplina")
+            department.delete_discipline_professor()
         elif option == 4:
-            department.consult_department()
+            print("\nremover disciplina")
         elif option == 5:
-            menu()
+            department.consult_department()
         elif option == 6:
+            op = input('\nDeseja prosseguir com a destruição do departamento? s/n ')
+            if op == 's':
+                department.delete_department()
+                print('Departamento deletado com sucesso!')
+                menu()
+        elif option == 7:
+            menu()
+        elif option == 8:
             exit()
+
 
 
 # Press the green button in the gutter to run the script.

@@ -1,8 +1,9 @@
-import departament as dp
+import department as dp
 
 class University:
-    def __init__(self, name):
+    def __init__(self, name, type):
         self.name = name
+        self.type = type
         self.departments = []
 
     def create_department(self):
@@ -20,7 +21,7 @@ class University:
 
     def consult_universiy(self):
         print(f'\nUNIVERSIDADE {self.name}')
-
+        print(f'Tipo de universidade: {self.type}')
         if len(self.departments) > 0:
             print(f'\nDepartamentos:')
             for i, dep in enumerate(self.departments):
