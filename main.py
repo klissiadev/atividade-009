@@ -8,12 +8,18 @@ professors = []
 disciplines = []
 universities = []
 
-def see_professor_list():
+def see_professor_list(department):
     global professors
 
     print("Professores: ")
     if len(professors) > 0:
         for i, professor in enumerate(professors):
+            if (professor.department is None or professor.department == department) and len(professor.disciplines) < 5:
+                status = "Disponível"
+            else:
+                status = "Indisponível"
+
+            professor.status = status
             print(f"{i + 1} - {professor.name} : {professor.status}")
 
         return True
@@ -208,7 +214,7 @@ def dep_menu(department):
 
         if option == 1:
             print("\nContratando novo professor...")
-            if see_professor_list() and see_discipline_list():
+            if see_professor_list(department) and see_discipline_list():
                 professor_index = int(input("\nEscolha um(a) professor para contratar: ")) - 1
                 discipline_index = int(input("\nEscolha uma disciplina para o professor: ")) - 1
                 department.add_professor(professors[professor_index], disciplines[discipline_index])

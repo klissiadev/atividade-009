@@ -9,7 +9,7 @@ class Professor:
         self.university = None
 
     def add_discipline(self, discipline):
-        if len(self.disciplines) <= 5:
+        if len(self.disciplines) <= 5 and self.status == "Disponível":
             self.disciplines.append(discipline)
             # self.university.append(university)
             if len(self.disciplines) == 5:

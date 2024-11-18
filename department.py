@@ -14,7 +14,8 @@ class Department:
 
     def add_professor(self, professor, discipline):
         if len(unique_elements(self.professors)) <= 5:
-            if professor not in self.professors or (professor in self.professors and discipline not in professor.disciplines):
+            if professor not in self.professors or (professor in self.professors and discipline not in professor.disciplines) and (
+                    professor.department is None or professor.department == self) and professor.status == "Disponível":
                 if professor.add_discipline(discipline):  # and discipline.add_professor(professor,self.university)
                     self.professors.append(professor)
                     self.disciplines.append(discipline)
@@ -22,7 +23,7 @@ class Department:
                     professor.university = self.university
                     print(f'Professor(a) {professor.name} contratado para lecionar {discipline.name} com sucesso!')
             else:
-                print(f'Professor(a) {professor.name} já leciona está disciplina!')
+                print(f'Professor(a) {professor.name} já leciona a matéria.')
         else:
             print('A quantidade de professores por departamento foi atingida.')
 
