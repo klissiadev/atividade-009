@@ -3,7 +3,7 @@ def unique_elements(lst):
     for item in lst:
         if item not in unique_list:
             unique_list.append(item)
-    return list(set(unique_list))
+    return list(unique_list)
 
 class Department:
     def __init__(self, name, university):
@@ -38,6 +38,7 @@ class Department:
             for i in range(len(self.professors) - 1, -1, -1): # runs from last to first
                 if self.professors[i].name == professor.name:
                     self.professors[i].delete_discipline(self.disciplines[i])
+                    self.disciplines[i].delete_professor(self.professors[i])
                     self.disciplines.remove(self.disciplines[i])
                     self.professors.remove(self.professors[i])
             if professor not in self.professors:
@@ -55,6 +56,7 @@ class Department:
         if 0 <= index < len(self.professors):
             professor = self.professors[index]
             professor.delete_discipline(self.disciplines[index])
+            self.disciplines[index].delete_professor(professor)
             self.disciplines.remove(self.disciplines[index])
             self.professors.remove(self.professors[index])
             if professor not in self.professors:
@@ -64,19 +66,44 @@ class Department:
             print('Opção inválida.')
             return False
 
+    def delete_discipline(self):
+        disciplines = unique_elements(self.disciplines)
+        for i, discipline in enumerate(disciplines):
+            print(f'{i+1} - {discipline.name}')
+        index = int(input('Selecione o professor(a): ')) - 1
+        if 0 <= index < len(disciplines):
+            discipline = self.disciplines[index]
+            print(f"Removendo a disciplina {discipline.name}...")
+            for i in range(len(self.disciplines) - 1, -1, -1): # runs from last to first
+                if self.disciplines[i].name == discipline.name:
+                    self.professors[i].delete_discipline(self.disciplines[i])
+                    self.disciplines[i].delete_professor(self.professors[i])
+                    self.disciplines.remove(self.disciplines[i])
+                    self.professors.remove(self.professors[i])
+            return True
+        else:
+            print('Opção inválida.')
+            return False
+
     def consult_department(self):
-        print(f'\nInformações do Departamento: \nNome: {self.name}  \nUniversidade: {self.university.name} \nProfessores: \n')
+        print(f'\nInformações do Departamento: \nNome: {self.name}  \nUniversidade: {self.university.name} \nProfessores:')
         if len(self.professors) > 0:
             for i, professor in enumerate(unique_elements(self.professors)):
                 print(f'- {professor.name}')
         else:
             print("Este departamento não possui professores ativos.")
+        print('\nDisciplinas:')
+        if len(self.disciplines) > 0:
+            for i, discipline in enumerate(unique_elements(self.disciplines)):
+                print(f'- {discipline.name}')
+        else:
+            print('Este departamento não possui disciplinas.')
 
     def delete_department(self):
         print(f'\nDeletando o Departamento ... {self.name}')
         for i in range(len(self.professors) - 1, -1, -1):  # runs from last to first
             self.professors[i].delete_discipline(self.disciplines[i])
-            #delete_discipline
+            self.disciplines[i].delete_professor(self.professors[i])
         self.university.departments.remove(self)
         del self
         return True

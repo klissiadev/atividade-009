@@ -37,7 +37,6 @@ def see_discipline_list():
 def create_discipline(name):
     global disciplines
     discipline = Discipline(name)
-
     disciplines.append(discipline)
 
 def create_professor(name, age):
@@ -136,11 +135,10 @@ def menu():
             for i, discipline in enumerate(disciplines):
                 print(f"\n{i + 1} - {discipline.name}\n")
 
-            index = int(input("\nEscolha uma discipline para consultar: ")) - 1
+            index = int(input("\nEscolha uma disciplina para consultar: ")) - 1
 
             if index >= 0 and index < len(disciplines):
-                print("\nConsultando Professor:\n")
-
+                print("\nConsultando Disciplina:\n")
                 discipline = disciplines[index]
                 discipline.consult_discipline()
         elif option == 7:
@@ -221,7 +219,8 @@ def dep_menu(department):
         elif option == 3:
             department.delete_discipline_professor()
         elif option == 4:
-            print("\nremover disciplina")
+            department.delete_discipline()
+            print('Disciplina deletada com sucesso!')
         elif option == 5:
             department.consult_department()
         elif option == 6:
